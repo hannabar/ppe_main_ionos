@@ -1,0 +1,275 @@
+/* =====================
+   GSB - Feuille de style
+   ===================== */
+
+:root {
+  --cyan:        #00BFDF;
+  --cyan-dark:   #009AB8;
+  --cyan-light:  #E0F7FB;
+  --navy:        #0A2540;
+  --gray-bg:     #F4F6F9;
+  --gray-border: #DDE3EC;
+  --gray-text:   #6B7A90;
+  --white:       #FFFFFF;
+  --red:         #E53935;
+  --green:       #28a745;
+}
+
+/* ── Corps général ── */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--gray-bg);
+  color: var(--navy);
+  margin: 0;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 1.5rem;
+  color: var(--navy);
+}
+
+/* ── Messages flash ── */
+.flash {
+  background: #FFF0F0;
+  border: 1px solid #FFCDD2;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 1rem;
+  color: var(--red);
+}
+
+.flash-success {
+  background: #F0FFF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 1rem;
+  color: #166534;
+}
+
+/* ── Erreurs de validation ── */
+.error {
+  color: var(--red);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+/* ── Formulaires ── */
+.field {
+  margin-bottom: 1.2rem;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  max-width: 500px;
+  padding: 10px 13px;
+  border: 1.5px solid var(--gray-border);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0,191,223,0.12);
+}
+
+input:disabled {
+  background: var(--gray-bg);
+  cursor: not-allowed;
+}
+
+/* ── Boutons ── */
+button[type="submit"], .btn-submit {
+  padding: 10px 22px;
+  background: var(--cyan);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 8px;
+}
+
+button[type="submit"]:hover {
+  background: var(--cyan-dark);
+}
+
+a.btn, .btn-cancel {
+  display: inline-block;
+  padding: 10px 22px;
+  background: var(--gray-bg);
+  color: var(--navy);
+  border: 1px solid var(--gray-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 8px;
+}
+
+a.btn:hover {
+  background: var(--gray-border);
+}
+
+/* ── Boutons d'action dans les tableaux ── */
+a.btn-voir {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cyan-dark);
+  background: var(--cyan-light);
+  border-radius: 6px;
+  text-decoration: none;
+  margin-right: 4px;
+}
+
+a.btn-modifier {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--navy);
+  background: var(--gray-bg);
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  text-decoration: none;
+  margin-right: 4px;
+}
+
+a.btn-mdp {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #92610a;
+  background: #FFF8E1;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-right: 4px;
+}
+
+button.btn-supprimer {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #b91c1c;
+  background: #FFF0F0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ── Tableaux ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(10,37,64,0.07);
+}
+
+thead th {
+  background: var(--navy);
+  color: rgba(255,255,255,0.7);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-border);
+  font-size: 13.5px;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--gray-bg);
+}
+
+/* ── Carte détail ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 500px;
+}
+
+.card p {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gray-border);
+  font-size: 14px;
+}
+
+.card p:last-child {
+  border-bottom: none;
+}
+
+/* ── Liens retour ── */
+a.button {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: var(--gray-bg);
+  color: var(--navy);
+  border: 1px solid var(--gray-border);
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+a.button:hover {
+  background: var(--gray-border);
+}
+
+/* ── Actions ── */
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
