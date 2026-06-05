@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title><?= htmlspecialchars($title ?? 'États') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
     <div class="topbar">
         <h1 style="margin:0;">Liste des États</h1>
-        <a class="button" href="/etat/create">Créer un état</a>
+        <a class="button" href="/index.php/etat/create">Créer un état</a>
     </div>
 
     <?php if (!empty($message)): ?>
@@ -34,10 +34,10 @@
                     <tr>
                         <td><?= htmlspecialchars((string)$et['id']) ?></td>
                         <td><?= htmlspecialchars((string)$et['libelle']) ?></td>
-                        <td><a href="/etat/<?= urlencode($et['id']) ?>" class="btn-voir">Voir</a></td>
-                        <td><a href="/etat/<?= urlencode($et['id']) ?>/edit" class="btn-modifier">Modifier</a></td>
+                        <td><a href="/index.php/etat/<?= urlencode($et['id']) ?>" class="btn-voir">Voir</a></td>
+                        <td><a href="/index.php/etat/<?= urlencode($et['id']) ?>/edit" class="btn-modifier">Modifier</a></td>
                         <td>
-                            <form method="post" action="/etat/<?= urlencode($et['id']) ?>/delete" style="display:inline;">
+                            <form method="post" action="/index.php/etat/<?= urlencode($et['id']) ?>/delete" style="display:inline;">
                                 <button type="submit" class="btn-supprimer" onclick="return confirm('Supprimer cet état ?');">Supprimer</button>
                             </form>
                         </td>

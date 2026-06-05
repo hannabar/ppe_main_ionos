@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>GSB — Accueil</title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
     <style>
         body {
             margin: 0;
@@ -100,8 +100,8 @@
         <h1>Gérez vos frais<br>professionnels</h1>
         <p>Plateforme de gestion des frais pour visiteurs médicaux et comptables</p>
         <div class="accueil-hero-btns">
-            <a href="/PPE-main/public/login" class="btn-hero-primary">Se connecter</a>
-            <a href="/PPE-main/public/inscription" class="btn-hero-secondary">S'inscrire</a>
+            <a href="/index.php/login" class="btn-hero-primary">Se connecter</a>
+            <a href="/index.php/inscription" class="btn-hero-secondary">S'inscrire</a>
         </div>
     </div>
 

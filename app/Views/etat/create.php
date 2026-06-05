@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($title ?? 'Créer un état', ENT_QUOTES, 'UTF-8'); ?></title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
     <h1><?= htmlspecialchars($title ?? 'Créer un état', ENT_QUOTES, 'UTF-8'); ?></h1>
@@ -12,7 +12,7 @@
         <div class="flash"><?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></div>
     <?php endif; ?>
 
-    <form action="/etat/create" method="post">
+    <form action="/index.php/etat/create" method="post">
         <div class="field">
             <label for="libelle">Libellé</label>
             <input type="text" name="libelle" id="libelle" value="<?= htmlspecialchars($old['libelle'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
@@ -22,7 +22,7 @@
         </div>
         <div class="actions">
             <button type="submit">Enregistrer</button>
-            <a href="/etat" class="btn">Annuler</a>
+            <a href="/index.php/etat" class="btn">Annuler</a>
         </div>
     </form>
 </body>
