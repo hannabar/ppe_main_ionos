@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($title ?? 'Modifier un forfait', ENT_QUOTES, 'UTF-8'); ?></title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
     <h1><?= htmlspecialchars($title ?? 'Modifier un forfait', ENT_QUOTES, 'UTF-8'); ?></h1>
 
-    <form action="/../forfait/<?= htmlspecialchars($forfait['id'], ENT_QUOTES, 'UTF-8'); ?>/edit" method="post">
+    <form action="/index.php/forfait/<?= htmlspecialchars($forfait['id'], ENT_QUOTES, 'UTF-8'); ?>/edit" method="post">
         <div class="field">
             <label for="libelle">Libellé *</label>
             <input type="text" name="libelle" id="libelle" value="<?= htmlspecialchars($old['libelle'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required autofocus>
@@ -25,7 +25,7 @@
         </div>
         <div class="actions">
             <button type="submit">Enregistrer</button>
-            <a href="/forfait" class="btn">Annuler</a>
+            <a href="/index.php/forfait" class="btn">Annuler</a>
         </div>
     </form>
 </body>

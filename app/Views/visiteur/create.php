@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($title ?? 'Créer un visiteur', ENT_QUOTES, 'UTF-8'); ?></title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="/visiteur/create" method="post">
+    <form action="/index.php/create" method="post">
         
         <div class="field">
             <label for="nom">Nom *</label>
@@ -92,7 +92,7 @@
 
         <div class="actions">
             <button type="submit">Enregistrer</button>
-            <a href="/visiteur" class="btn">Annuler</a>
+            <a href="/index.php/visiteur" class="btn">Annuler</a>
         </div>
     </form>
 

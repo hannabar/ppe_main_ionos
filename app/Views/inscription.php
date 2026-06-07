@@ -25,7 +25,7 @@
     </div>
     <?php endif; ?>
 
-    <form action="/PPE-main/public/inscription" method="post">
+    <form action="/index.php/inscription" method="post">
 
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
         <div class="form-group">
@@ -83,7 +83,7 @@
     </form>
 
     <p style="font-size:13px; color:var(--gray-text); text-align:center; margin-top:1rem;">
-      Déjà un compte ? <a href="/PPE-main/public/login" style="color:var(--cyan-dark); font-weight:500; text-decoration:none;">Se connecter</a>
+      Déjà un compte ? <a href="/index.php/login" style="color:var(--cyan-dark); font-weight:500; text-decoration:none;">Se connecter</a>
     </p>
 
   </div>

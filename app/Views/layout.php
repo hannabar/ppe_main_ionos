@@ -127,17 +127,17 @@
 ?>
 <nav class="dash-nav">
   <div class="dash-nav-left">
-    <a href="<?= $base ?>/dashboard" class="dash-nav-logo">
+    <a href="<?= $base ?>/index.php/dashboard" class="dash-nav-logo">
       <div class="dash-nav-logo-badge"><span>GSB</span></div>
     </a>
     <div class="dash-nav-links">
-      <a href="<?= $base ?>/dashboard" class="<?= $requestPath === '/dashboard' ? 'active' : '' ?>">Accueil</a>
-      <a href="<?= $base ?>/visiteur" class="<?= $isActive('/visiteur') ?>">Visiteurs</a>
-      <a href="<?= $base ?>/etat" class="<?= $isActive('/etat') ?>">États</a>
-      <a href="<?= $base ?>/fichefrais" class="<?= $isActive('/fichefrais') ?>">Fichefrais</a>
-      <a href="<?= $base ?>/forfait" class="<?= $isActive('/forfait') ?>">Forfaits</a>
-      <a href="<?= $base ?>/horforfait" class="<?= $isActive('/horforfait') ?>">Horforfait</a>
-      <a href="<?= $base ?>/lignefraisforfait" class="<?= $isActive('/lignefraisforfait') ?>">Lignefraisforfait</a>
+      <a href="<?= $base ?>/index.php/dashboard" class="<?= $requestPath === '/index.php/dashboard' ? 'active' : '' ?>">Accueil</a>
+      <a href="<?= $base ?>/index.php/visiteur" class="<?= $isActive('/index.php/visiteur') ?>">Visiteurs</a>
+      <a href="<?= $base ?>/index.php/etat" class="<?= $isActive('/index.php/etat') ?>">États</a>
+      <a href="<?= $base ?>/index.php/fichefrais" class="<?= $isActive('/index.php/fichefrais') ?>">Fichefrais</a>
+      <a href="<?= $base ?>/index.php/forfait" class="<?= $isActive('/index.php/forfait') ?>">Forfaits</a>
+      <a href="<?= $base ?>/index.php/horforfait" class="<?= $isActive('/index.php/horforfait') ?>">Horforfait</a>
+      <a href="<?= $base ?>/index.php/lignefraisforfait" class="<?= $isActive('/index.php/lignefraisforfait') ?>">Lignefraisforfait</a>
     </div>
   </div>
   <div class="dash-nav-right">

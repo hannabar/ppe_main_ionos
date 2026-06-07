@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier le mot de passe</title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
 
@@ -39,7 +39,7 @@
 
         <div class="actions">
             <button type="submit"> Enregistrer</button>
-            <a href="/PPE-main/public/visiteur" class="btn">↩ Annuler</a>
+            <a href="/index.php/visiteur" class="btn">↩ Annuler</a>
         </div>
     </form>
 </div>

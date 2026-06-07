@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($title ?? 'Modifier un visiteur', ENT_QUOTES, 'UTF-8'); ?></title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
 
     <h1><?= htmlspecialchars($title ?? 'Modifier un visiteur', ENT_QUOTES, 'UTF-8'); ?></h1>
 
-    <form action="/PPE-main/public/visiteur/<?= htmlspecialchars($visiteur['id'], ENT_QUOTES, 'UTF-8') ?>/edit" method="post">
+    <form action="/index.php/visiteur/<?= htmlspecialchars($visiteur['id'], ENT_QUOTES, 'UTF-8') ?>/edit" method="post">
         
         <div class="field">
             <label for="adresse">Adresse *</label>
@@ -37,7 +37,7 @@
 
         <div class="actions">
             <button type="submit">Enregistrer</button>
-            <a href="/visiteur" class="btn">Annuler</a>
+            <a href="/index.php/visiteur" class="btn">Annuler</a>
         </div>
     </form>
 

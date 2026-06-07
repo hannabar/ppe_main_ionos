@@ -8,10 +8,14 @@ final class ControlLigneFraisForfait extends Controller{
     
     public function index(): void
     {
-        if (empty($_SESSION['uid'])) $this->redirect('/');
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php');
         
         try {
-            $lignefraisforfait = lignefraisforfait::findAll();
+            if ($_SESSION['role'] === 'comptable') {
+                $lignefraisforfait = lignefraisforfait::findAll();
+            } else {
+                $lignefraisforfait = lignefraisforfait::findByVisiteur((int)$_SESSION['uid']);
+}
         } catch(\Throwable $e){
             $_SESSION['flash'] = 'Impossible de charger les lignes de frais forfait';
             $lignefraisforfait = [];
@@ -28,18 +32,23 @@ final class ControlLigneFraisForfait extends Controller{
 
     public function show($idVisiteur, $mois, $idFraisForfait): void
     {
-        if (empty($_SESSION['uid'])) $this->redirect('/');
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+        if ($_SESSION['role'] !== 'comptable' && (int)$_SESSION['uid'] !== (int)$idVisiteur) {
+            $_SESSION['flash'] = 'Accès refusé.';
+            $this->redirect('/index.php/dashboard');
+}
 
         try {
             $ligne = lignefraisforfait::findById($idVisiteur, $mois, $idFraisForfait);
             if (!$ligne) {
                 http_response_code(404);
                 $_SESSION['flash'] = 'Ligne de frais forfait introuvable.';
-                $this->redirect('/lignefraisforfait');
+                $this->redirect('/index.php/lignefraisforfait');
             }
         } catch (\Throwable $e) {
             $_SESSION['flash'] = 'Erreur lors du chargement de la ligne de frais forfait.';
-            $this->redirect('/lignefraisforfait');
+            $this->redirect('/index.php/lignefraisforfait');
         }
 
         $this->render('lignefraisforfait/show', [
@@ -53,7 +62,7 @@ final class ControlLigneFraisForfait extends Controller{
 
     public function create(): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
 
     try {
         $visiteurs    = \Models\visiteur::findAll();
@@ -77,7 +86,7 @@ final class ControlLigneFraisForfait extends Controller{
 
     public function store(): void
     {
-        if (empty($_SESSION['uid'])) $this->redirect('/');
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php');
 
         $idVisiteur       = trim($_POST['idVisiteur'] ?? '');
         $mois             = trim($_POST['mois_annee'] ?? '') . trim($_POST['mois_mois'] ?? '');
@@ -117,14 +126,14 @@ final class ControlLigneFraisForfait extends Controller{
                 'quantite'       => $quantite,
             ];
             $_SESSION['flash'] = 'Merci de corriger les erreurs du formulaire.';
-            $this->redirect('/lignefraisforfait/create');
+            $this->redirect('/index.php/lignefraisforfait/create');
         }
 
 
         try {
             lignefraisforfait::create($idVisiteur, $mois, $idFraisForfait, $quantite);
             $_SESSION['flash'] = 'Ligne de frais forfait créée avec succès.';
-            $this->redirect('/lignefraisforfait/' . $idVisiteur . '/' . $mois);
+            $this->redirect('/index.php/lignefichefrais/' . $idVisiteur . '/' . $mois);
         } catch (\Throwable $e) {
             die($e->getMessage());
         }
@@ -132,17 +141,22 @@ final class ControlLigneFraisForfait extends Controller{
 
     public function edit($idVisiteur, $mois, $idFraisForfait): void
     {
-        if (empty($_SESSION['uid'])) $this->redirect('/');
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+        if ($_SESSION['role'] !== 'comptable' && (int)$_SESSION['uid'] !== (int)$idVisiteur) {
+    $_SESSION['flash'] = 'Accès refusé.';
+    $this->redirect('/index.php/dashboard');
+}
 
         try {
             $ligne = lignefraisforfait::findById($idVisiteur, $mois, $idFraisForfait);
             if (!$ligne) {
                 $_SESSION['flash'] = "Ligne de frais forfait introuvable.";
-                $this->redirect('/lignefraisforfait');
+                $this->redirect('/index.php/lignefraisforfait');
             }
         } catch (\Throwable $e) {
             $_SESSION['flash'] = "Erreur lors du chargement de la ligne de frais forfait.";
-            $this->redirect('/lignefraisforfait');
+            $this->redirect('/index.php/lignefraisforfait');
         }
 
         $old = $_SESSION['old'] ?? [
@@ -165,7 +179,12 @@ final class ControlLigneFraisForfait extends Controller{
 
     public function update($idVisiteur, $mois, $idFraisForfait): void
     {
-        if (empty($_SESSION['uid'])) $this->redirect('/');
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+        if ($_SESSION['role'] !== 'comptable' && (int)$_SESSION['uid'] !== (int)$idVisiteur) {
+    $_SESSION['flash'] = 'Accès refusé.';
+    $this->redirect('/index.php/dashboard');
+}
 
         $quantite = (int)($_POST['quantite'] ?? 0);
 
@@ -179,22 +198,27 @@ final class ControlLigneFraisForfait extends Controller{
             $_SESSION['errors'] = $errors;
             $_SESSION['old']    = ['quantite' => $quantite];
             $_SESSION['flash']  = "Merci de corriger les erreurs.";
-            $this->redirect("/lignefraisforfait/$idVisiteur/$mois/$idFraisForfait/edit");
+            $this->redirect("/index.php/lignefraisforfait/$idVisiteur/$mois/$idFraisForfait/edit");
         }
 
         try {
             lignefraisforfait::update($idVisiteur, $mois, $idFraisForfait, $quantite);
             $_SESSION['flash'] = "Ligne de frais forfait modifiée avec succès.";
-            $this->redirect("/lignefraisforfait/$idVisiteur/$mois");
+            $this->redirect("/index.php/lignefichefrais/$idVisiteur/$mois");
         } catch (\Throwable $e) {
             $_SESSION['flash'] = "Erreur lors de la mise à jour.";
-            $this->redirect("/lignefraisforfait");
+            $this->redirect("/index.php/lignefraisforfait");
         }
     }
 
     public function delete($idVisiteur, $mois, $idFraisForfait): void
     {
-        if (empty($_SESSION['uid'])) $this->redirect('/');
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+        if ($_SESSION['role'] !== 'comptable' && (int)$_SESSION['uid'] !== (int)$idVisiteur) {
+    $_SESSION['flash'] = 'Accès refusé.';
+    $this->redirect('/index.php/dashboard');
+}
 
         try {
             $ok = lignefraisforfait::delete($idVisiteur, $mois, $idFraisForfait);
@@ -206,6 +230,6 @@ final class ControlLigneFraisForfait extends Controller{
             $_SESSION['flash'] = "Erreur lors de la suppression.";
         }
 
-        $this->redirect("/lignefraisforfait/$idVisiteur/$mois");
+        $this->redirect("/index.php/lignefichefrais/$idVisiteur/$mois");
     }
 }

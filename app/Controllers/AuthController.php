@@ -10,7 +10,7 @@ final class AuthController extends Controller {
     }
 
     public function login(): void {
-        if (!empty($_SESSION['uid'])) { $this->redirect('/dashboard'); }
+        if (!empty($_SESSION['uid'])) { $this->redirect('/index.php/dashboard'); }
         $this->render('login', [
             'title' => 'Connexion',
             'csrf'  => $this->csrfToken(),
@@ -28,13 +28,13 @@ final class AuthController extends Controller {
 
         if ($username === '' || $password === '') {
             $_SESSION['flash'] = 'Identifiants requis';
-            $this->redirect('/');
+            $this->redirect('/index.php/');
         }
 
         $user = User::findByUsername($username);
         if (!$user || !password_verify($password, $user['mdp'])) {
             $_SESSION['flash'] = 'Mauvais identifiant ou mot de passe';
-            $this->redirect('/');
+            $this->redirect('/index.php/');
         }
 
         $_SESSION['uid']  = (int)$user['id'];
@@ -42,14 +42,14 @@ final class AuthController extends Controller {
         $_SESSION['role'] = $user['role'];
 
         if ($user['role'] === 'comptable') {
-        $this->redirect('/dashboard-comptable');
+        $this->redirect('/index.php/dashboard-comptable');
 }       else {
-        $this->redirect('/dashboard');
+        $this->redirect('/index.php/dashboard');
 }
     }
 
     public function dashboard(): void {
-        if (empty($_SESSION['uid'])) $this->redirect('/');
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php/');
         $this->render('dashboard', ['title'=>'Dashboard', 'username'=>$_SESSION['name'] ?? 'Utilisateur']);
     }
 
@@ -60,12 +60,12 @@ final class AuthController extends Controller {
             setcookie(session_name(), '', time()-42000, $p['path'], $p['domain'], $p['secure'], $p['httponly']);
         }
         session_destroy();
-        $this->redirect('/');
+        $this->redirect('/index.php');
     }
 
     public function dashboardComptable(): void {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
-    if ($_SESSION['role'] !== 'comptable') $this->redirect('/dashboard');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+    if ($_SESSION['role'] !== 'comptable') $this->redirect('/index.php/dashboard');
     
     $this->render('dashboard-comptable', [
         'title' => 'Dashboard Comptable',
@@ -74,7 +74,7 @@ final class AuthController extends Controller {
 }
 
 public function inscription(): void {
-    if (!empty($_SESSION['uid'])) $this->redirect('/dashboard');
+    if (!empty($_SESSION['uid'])) $this->redirect('/index.php/dashboard');
     $this->render('inscription', [
         'title'   => 'Inscription',
         'message' => $_SESSION['flash'] ?? '',
@@ -109,7 +109,7 @@ public function doInscription(): void {
         $_SESSION['errors'] = $errors;
         $_SESSION['old']    = compact('nom','prenom','adresse','ville','cp','login');
         $_SESSION['flash']  = 'Merci de corriger les erreurs.';
-        $this->redirect('/inscription');
+        $this->redirect('/index.php/inscription');
     }
 
     try {
@@ -120,10 +120,10 @@ public function doInscription(): void {
             // role = 'visiteur' par défaut en BDD
         );
         $_SESSION['flash'] = 'Compte créé avec succès ! Connectez-vous.';
-        $this->redirect('/login');
+        $this->redirect('/index.php/login');
     } catch (\Throwable $e) {
         $_SESSION['flash'] = 'Erreur : login déjà utilisé ou problème serveur.';
-        $this->redirect('/inscription');
+        $this->redirect('/index.php/inscription');
     }
 }
 

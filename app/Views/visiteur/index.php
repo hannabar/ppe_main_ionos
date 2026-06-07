@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title><?= htmlspecialchars($title ?? 'visiteur') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
     <div class="topbar">
         <h1 style="margin:0;">Liste des Visiteurs</h1>
-        <a class="button" href="/visiteur/create">Créer un visiteur</a>
+        <a class="button" href="/index.php/create">Créer un visiteur</a>
     </div>
 
     <?php if (!empty($message)): ?>
@@ -47,14 +47,14 @@
                         <td><?= htmlspecialchars((string)$vis['cp']) ?></td>
                         <td><?= htmlspecialchars((string)$vis['date_embauche']) ?></td>
                         <td><?= htmlspecialchars((string)$vis['login']) ?></td>
-                        <td><a href="/PPE-main/public/visiteur/<?= urlencode($vis['id']) ?>" class="btn-voir">Voir</a></td>
-                        <td><a href="/PPE-main/public/visiteur/<?= urlencode($vis['id']) ?>/edit" class="btn-modifier">Modifier</a></td>
+                        <td><a href="/index.php/visiteur/<?= urlencode($vis['id']) ?>" class="btn-voir">Voir</a></td>
+                        <td><a href="/index.php/visiteur/<?= urlencode($vis['id']) ?>/edit" class="btn-modifier">Modifier</a></td>
                         <td>
-                            <form method="post"action="/PPE-main/public/visiteur/<?= urlencode($vis['id']) ?>/delete" style="display:inline;">
+                            <form method="post"action="/index.php/visiteur/<?= urlencode($vis['id']) ?>/delete" style="display:inline;">
                                 <button type="submit" class="btn-supprimer" onclick="return confirm('Voulez-vous vraiment supprimer ce visiteur ?');">Supprimer</button>
                             </form>
                         </td>
-                        <td><a href="/PPE-main/public/visiteur/<?= $vis['id'] ?>/modifier-mdp" class="btn-mdp">Modifier MDP</a></td>
+                        <td><a href="/index.php/visiteur/<?= $vis['id'] ?>/modifier-mdp" class="btn-mdp">Modifier MDP</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

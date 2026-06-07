@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($title ?? 'Modifier un horforfait', ENT_QUOTES, 'UTF-8'); ?></title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
     <h1><?= htmlspecialchars($title ?? 'Modifier un horforfait', ENT_QUOTES, 'UTF-8'); ?></h1>
 
-    <form action="/../horforfait/<?= htmlspecialchars($horforfait['id'], ENT_QUOTES, 'UTF-8'); ?>/edit" method="post">
+    <form action="/index.php/horforfait/<?= htmlspecialchars($horforfait['id'], ENT_QUOTES, 'UTF-8'); ?>/edit" method="post">
         <div class="field">
             <label for="date">Date *</label>
             <input type="date" name="date" id="date" value="<?= htmlspecialchars($old['date'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required autofocus>
@@ -32,7 +32,7 @@
         </div>
         <div class="actions">
             <button type="submit">Enregistrer</button>
-            <a href="/horforfait" class="btn">Annuler</a>
+            <a href="/index.php/horforfait" class="btn">Annuler</a>
         </div>
     </form>
 </body>

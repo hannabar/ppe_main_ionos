@@ -4,29 +4,37 @@ namespace Controllers;
 use Core\Controller;
 use Models\visiteur;
 final class ControlVisiteur extends Controller{
-    public function index():void{
-        if (empty($_SESSION['uid'])){
-            $this->redirect('/');
-
-        }
-        try {
-            $visiteur = visiteur::findAll();
-        }catch(\Throwable $e){
-            $_SESSION['flash']='Impossible de trouver des visiteurs';
-            $visiteur=[];
-        }
-        $this->render('visiteur/index',
-        ['title'=>"Liste des visiteurs",
-        "visiteur"=>$visiteur,
-        "message"=>$_SESSION['flash']??'',
+    public function index(): void {
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+    
+    if ($_SESSION['role'] !== 'comptable') {
+    $_SESSION['flash_error'] = 'Cette section est réservée au comptable.';
+    $this->redirect('/index.php/dashboard');
+}
+    
+    try {
+        $visiteur = visiteur::findAll();
+    } catch(\Throwable $e) {
+        $_SESSION['flash'] = 'Impossible de trouver des visiteurs';
+        $visiteur = [];
+    }
+    
+    $this->render('visiteur/index', [
+        'title'   => "Liste des visiteurs",
+        'visiteur' => $visiteur,
+        'message' => $_SESSION['flash'] ?? '',
     ]);
-        unset($_SESSION['flash']);
-
-
+    
+    unset($_SESSION['flash']);
 }
     public function show($id): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+    if ($_SESSION['role'] !== 'comptable' && $_SESSION['uid'] !== $id) {
+    $_SESSION['flash'] = 'Accès refusé.';
+    $this->redirect('/index.php/dashboard');
+}
 
     $id = (int)$id;
 
@@ -35,7 +43,7 @@ final class ControlVisiteur extends Controller{
         if (!$visiteur) {
             //http_response_code(404);
             $_SESSION['flash'] = 'Visiteur introuvable.';
-            $this->redirect('/visiteur');
+            $this->redirect('/index.php/visiteur');
         }
     } catch (\Throwable $e) {
         // error_log($e->getMessage()); // utile en debug
@@ -53,6 +61,12 @@ final class ControlVisiteur extends Controller{
 public function create(): void
 {
     if (empty($_SESSION['uid'])) $this->redirect('/');
+
+    if ($_SESSION['role'] !== 'comptable') {
+    $_SESSION['flash_error'] = 'Cette section est réservée au comptable.';
+    $this->redirect('/index.php/dashboard');
+}
+
 
     $this->render('visiteur/create', [
         'title'   => 'Créer un visiteur',
@@ -74,7 +88,12 @@ public function create(): void
 
 public function store(): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+    if ($_SESSION['role'] !== 'comptable') {
+    $_SESSION['flash_error'] = 'Cette section est réservée au comptable.';
+    $this->redirect('/index.php/dashboard');
+}
 
     $nom           = trim($_POST['nom'] ?? '');
     $prenom        = trim($_POST['prenom'] ?? '');
@@ -154,7 +173,7 @@ public function store(): void
             'login' => $login
         ];
         $_SESSION['flash']  = 'Merci de corriger les erreurs du formulaire.';
-        $this->redirect('/visiteur/create');
+        $this->redirect('/index.php/visiteur/create');
     }
    
     try {
@@ -169,17 +188,22 @@ public function store(): void
             $mdp
         );
         $_SESSION['flash'] = 'Visiteur créé avec succès.';
-        $this->redirect('/visiteur/' . $id);
+        $this->redirect('/index.php/visiteur/' . $id);
     } catch (\Throwable $e) {
         error_log("CREATE VISITEUR ERROR: " . $e->getMessage());
         $_SESSION['flash'] = 'Impossible de créer le visiteur.';
-        $this->redirect('/visiteur');
+        $this->redirect('/index.php/visiteur');
     }
 }
 
 public function edit($id): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+    if ($_SESSION['role'] !== 'comptable' && $_SESSION['uid'] !== $id) {
+    $_SESSION['flash'] = 'Accès refusé.';
+    $this->redirect('/index.php/dashboard');
+}
 
     $id = (int)$id;
 
@@ -187,11 +211,11 @@ public function edit($id): void
         $visiteur = \Models\visiteur::findById($id);
         if (!$visiteur) {
             $_SESSION['flash'] = "Visiteur introuvable.";
-            $this->redirect('/visiteur');
+            $this->redirect('/index.php/visiteur');
         }
     } catch (\Throwable $e) {
         $_SESSION['flash'] = "Erreur lors du chargement du visiteur.";
-        $this->redirect('/visiteur');
+        $this->redirect('/index.php/visiteur');
     }
 
     // remplissage auto
@@ -213,10 +237,14 @@ public function edit($id): void
     unset($_SESSION['old'], $_SESSION['errors'], $_SESSION['flash']);
 }
 
-// ---------- UPDATE (POST) ----------
 public function update($id): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+    if ($_SESSION['role'] !== 'comptable' && $_SESSION['uid'] !== $id) {
+    $_SESSION['flash'] = 'Accès refusé.';
+    $this->redirect('/index.php/dashboard');
+}
 
     $id = (int)$id;
     $adresse = trim($_POST['adresse'] ?? '');
@@ -252,16 +280,16 @@ public function update($id): void
 ];
 
         $_SESSION['flash'] = "Merci de corriger les erreurs.";
-        $this->redirect("/visiteur/$id/edit");
+        $this->redirect("/index.php/visiteur/$id/edit");
     }
 
     try {
         \Models\visiteur::update($id, $adresse , $ville , $cp , $mdp);
         $_SESSION['flash'] = "Informations modifiées avec succès.";
-        $this->redirect("/visiteur/$id");
+        $this->redirect("/index.php/visiteur/$id");
     } catch (\Throwable $e) {
         $_SESSION['flash'] = "Erreur lors de la mise à jour.";
-        $this->redirect("/visiteur");
+        $this->redirect("/index.php/visiteur");
         return;
     }
 }
@@ -269,8 +297,13 @@ public function update($id): void
 public function delete($id): void
 {
     if (empty($_SESSION['uid'])) {
-        $this->redirect('/');
+        $this->redirect('/index.php');
     }
+
+    if ($_SESSION['role'] !== 'comptable' && $_SESSION['uid'] !== $id) {
+    $_SESSION['flash'] = 'Accès refusé.';
+    $this->redirect('/index.php/dashboard');
+}
 
     $id = (int)$id;
 
@@ -287,7 +320,7 @@ public function delete($id): void
         $_SESSION['flash'] = "Erreur lors de la suppression du visiteur.";
     }
 
-    $this->redirect('/visiteur');
+    $this->redirect('/index.php/visiteur');
 }
 
 public function modifierMdp(int $id): void
@@ -321,7 +354,6 @@ public function modifierMdp(int $id): void
         }
     }
     
-    // Charger la vue
     require __DIR__ . '/../views/visiteur/modifier_mdp.php';
 }
 

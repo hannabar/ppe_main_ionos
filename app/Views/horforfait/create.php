@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($title ?? 'Créer un horforfait', ENT_QUOTES, 'UTF-8'); ?></title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
     <h1><?= htmlspecialchars($title ?? 'Créer un horforfait', ENT_QUOTES, 'UTF-8'); ?></h1>
@@ -12,7 +12,7 @@
         <div class="flash"><?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></div>
     <?php endif; ?>
 
-    <form action="/horforfait/create" method="post">
+    <form action="/index.php/horforfait/create" method="post">
         <div class="field">
             <label for="date">Date</label>
             <input type="date" name="date" id="date" value="<?= htmlspecialchars($old['date'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
@@ -36,7 +36,7 @@
         </div>
         <div class="actions">
             <button type="submit">Enregistrer</button>
-            <a href="/horforfait" class="btn">Annuler</a>
+            <a href="/index.php/horforfait" class="btn">Annuler</a>
         </div>
     </form>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title><?= htmlspecialchars($title ?? 'Visiteur') ?></title>
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
     <h1>Détail des visiteurs</h1>
@@ -24,10 +24,10 @@
             <p><strong>Login :</strong> <?= htmlspecialchars($visiteur['login']) ?></p>
             <p><strong>Mot de passe :</strong> <?= htmlspecialchars($visiteur['mdp']) ?></p>
         </div>
-        <a class="button" href="/visiteur">⬅ Retour à la liste</a>
+        <a class="button" href="/index.php/visiteur">⬅ Retour à la liste</a>
     <?php else: ?>
         <p>Visiteur introuvable.</p>
-        <a class="button" href="/visiteur">Retour à la liste</a>
+        <a class="button" href="/index.php/visiteur">Retour à la liste</a>
     <?php endif; ?>
 </body>
 </html>

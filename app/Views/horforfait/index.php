@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title><?= htmlspecialchars($title ?? 'Frais HorForfait') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/PPE-main/public/gsb.css">
+    <link rel="stylesheet" href="/gsb.css">
 </head>
 <body>
     <div class="topbar">
         <h1 style="margin:0;">Liste des Frais Horforfait</h1>
-        <a class="button" href="/horforfait/create">Créer un horforfait</a>
+        <a class="button" href="/index.php/horforfait/create">Créer un horforfait</a>
     </div>
 
     <?php if (!empty($message)): ?>
@@ -32,10 +32,10 @@
                         <td><?= htmlspecialchars((string)$hor['date']) ?></td>
                         <td><?= htmlspecialchars((string)$hor['montant']) ?> €</td>
                         <td><?= htmlspecialchars((string)$hor['libelle']) ?></td>
-                        <td><a href="/horforfait/<?= urlencode($hor['id']) ?>" class="btn-voir">Voir</a></td>
-                        <td><a href="/horforfait/<?= urlencode($hor['id']) ?>/edit" class="btn-modifier">Modifier</a></td>
+                        <td><a href="/index.php/horforfait/<?= urlencode($hor['id']) ?>" class="btn-voir">Voir</a></td>
+                        <td><a href="/index.php/horforfait/<?= urlencode($hor['id']) ?>/edit" class="btn-modifier">Modifier</a></td>
                         <td>
-                            <form method="post" action="/horforfait/<?= urlencode($hor['id']) ?>/delete" style="display:inline;">
+                            <form method="post" action="/index.php/horforfait/<?= urlencode($hor['id']) ?>/delete" style="display:inline;">
                                 <button type="submit" class="btn-supprimer" onclick="return confirm('Supprimer ce horforfait ?');">Supprimer</button>
                             </form>
                         </td>

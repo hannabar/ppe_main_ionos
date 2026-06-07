@@ -6,7 +6,7 @@ use Models\horforfait;
 final class ControlHorForfait extends Controller{
     public function index():void{
         if (empty($_SESSION['uid'])){
-            $this->redirect('/');
+            $this->redirect('/index.php');
 
         }
         try {
@@ -26,7 +26,7 @@ final class ControlHorForfait extends Controller{
 }
     public function show($id): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
 
     $id = (int)$id;
 
@@ -35,7 +35,7 @@ final class ControlHorForfait extends Controller{
         if (!$horforfait) {
             http_response_code(404);
             $_SESSION['flash'] = 'HorForfait introuvable.';
-            $this->redirect('/horforfait');
+            $this->redirect('/index.php/horforfait');
         }
     } catch (\Throwable $e) {
         // error_log($e->getMessage()); // utile en debug
@@ -53,7 +53,7 @@ final class ControlHorForfait extends Controller{
 
 public function create(): void
     {
-        if (empty($_SESSION['uid'])) $this->redirect('/');
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php');
 
         $this->render('horforfait/create', [
             'title'   => 'Créer un horforfait',
@@ -68,28 +68,25 @@ public function create(): void
     
 public function store(): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
 
     $dateStr = $_POST['date'] ?? '';
     $montant = $_POST['montant'] ?? '';
     $libelle = trim($_POST['libelle'] ?? '');
     $errors = [];
 
-    // Validation du libellé
     if ($libelle === '') {
         $errors['libelle'] = 'Le libellé est obligatoire.';
     } elseif (mb_strlen($libelle) > 100) {
         $errors['libelle'] = 'Le libellé ne doit pas dépasser 100 caractères.';
     }
 
-    // Validation du montant
     if ($montant === '') {
         $errors['montant'] = 'Le montant est obligatoire.';
     } elseif ($montant <= 0) {
         $errors['montant'] = 'Le montant ne doit pas être négatif.';
     }
 
-    // Validation de la date
     try {
     $dateObj = new \DateTime($dateStr);
     $date = $dateObj->format('Y-m-d'); // <-- ici on récupère la date sous forme string
@@ -105,22 +102,27 @@ public function store(): void
             'libelle' => $libelle
         ];
         $_SESSION['flash'] = 'Merci de corriger les erreurs du formulaire.';
-        $this->redirect('/horforfait/create');
+        $this->redirect('/index.php/horforfait/create');
     }
 
     try {
         $id = \Models\horforfait::create_horforfait($date, $montant, $libelle);
         $_SESSION['flash'] = 'HorForfait créé avec succès.';
-        $this->redirect('/horforfait/' . $id);
+        $this->redirect('/index.php/horforfait/' . $id);
     } catch (\Throwable $e) {
         $_SESSION['flash'] = 'Impossible de créer le horforfait.';
-        $this->redirect('/horforfait');
+        $this->redirect('/index.php/horforfait');
     }
 }
 
 public function edit($id): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+   if ($_SESSION['role'] !== 'comptable') {
+    $_SESSION['flash_error'] = 'Cette section est réservée au comptable.';
+    $this->redirect('/index.php/dashboard');
+}
 
     $id = (int)$id;
 
@@ -128,14 +130,13 @@ public function edit($id): void
         $horforfait = \Models\horforfait::findById($id);
         if (!$horforfait) {
             $_SESSION['flash'] = "HorForfait introuvable.";
-            $this->redirect('/horforfait');
+            $this->redirect('/index.php/horforfait');
         }
     } catch (\Throwable $e) {
         $_SESSION['flash'] = "Erreur lors du chargement du horforfait.";
-        $this->redirect('/horforfait');
+        $this->redirect('/index.php/horforfait');
     }
 
-    // remplissage auto
     $old = $_SESSION['old'] ?? [
     'date' => $horforfait['date'],
     'montant' => $horforfait['montant'],
@@ -153,10 +154,15 @@ public function edit($id): void
     unset($_SESSION['old'], $_SESSION['errors'], $_SESSION['flash']);
 }
 
-// ---------- UPDATE (POST) ----------
+
 public function update($id): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
+
+    if ($_SESSION['role'] !== 'comptable') {
+    $_SESSION['flash_error'] = 'Cette section est réservée au comptable.';
+    $this->redirect('/index.php/dashboard');
+}
 
     $id = (int)$id;
     $date = trim($_POST['date'] ?? '');
@@ -189,24 +195,29 @@ public function update($id): void
 ];
 
         $_SESSION['flash'] = "Merci de corriger les erreurs.";
-        $this->redirect("/horforfait/$id/edit");
+        $this->redirect("/index.php/horforfait/$id/edit");
     }
 
     try {
         \Models\horforfait::update($id,$date, $montant,$libelle);
         $_SESSION['flash'] = "HorForfait modifié avec succès.";
-        $this->redirect("/horforfait/$id");
+        $this->redirect("/index.php/horforfait/$id");
     } catch (\Throwable $e) {
         $_SESSION['flash'] = "Erreur lors de la mise à jour.";
-        $this->redirect("/horforfait");
+        $this->redirect("/index.php/horforfait");
     }
 }
 
 public function delete($id): void
 {
     if (empty($_SESSION['uid'])) {
-        $this->redirect('/');
+        $this->redirect('/index.php');
     }
+
+    if ($_SESSION['role'] !== 'comptable') {
+    $_SESSION['flash_error'] = 'Cette section est réservée au comptable.';
+    $this->redirect('/index.php/dashboard');
+}
 
     $id = (int)$id;
 
@@ -219,11 +230,10 @@ public function delete($id): void
             $_SESSION['flash'] = "Impossible de supprimer ce HorForfait.";
         }
     } catch (\Throwable $e) {
-        // error_log($e->getMessage());
         $_SESSION['flash'] = "Erreur lors de la suppression du Horforfait.";
     }
 
-    $this->redirect('/horforfait');
+    $this->redirect('/index.php/horforfait');
 }
 
 

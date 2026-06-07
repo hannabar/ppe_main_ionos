@@ -26,7 +26,7 @@ $e = fn($s) => htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'
     </div>
     <?php endif; ?>
 
-    <form method="post" action="/index.php/auth">
+    <form method="post" action="/index.php/login">
 
       <div class="form-group">
         <label for="username">Identifiant</label>
