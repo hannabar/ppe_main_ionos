@@ -69,7 +69,8 @@ final class AuthController extends Controller {
     
     $this->render('dashboard-comptable', [
         'title' => 'Dashboard Comptable',
-        'username' => $_SESSION['name'] ?? 'Comptable'
+        'username' => $_SESSION['name'] ?? 'Comptable',
+        'authPage' => true,
     ]);
 }
 
