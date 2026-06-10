@@ -71,6 +71,7 @@ final class AuthController extends Controller {
         'title' => 'Dashboard Comptable',
         'username' => $_SESSION['name'] ?? 'Comptable',
         'authPage' => true,
+        'noNav'    => true,
     ]);
 }
 

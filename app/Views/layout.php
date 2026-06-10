@@ -109,7 +109,7 @@
     .form-actions{display:flex;gap:10px;margin-top:1.5rem;}
   </style>
 </head>
-<body class="<?= ($authPage ?? false) ? 'auth-page' : '' ?>">
+<body class="<?= ($authPage ?? false) && !isset($noNav) ? 'auth-page' : '' ?>">
 
 <?php if (!($authPage ?? false)):
   // Calcul automatique du préfixe (ex: /PPE-main - Copie/public)
