@@ -49,7 +49,8 @@
                             $MontantTotal=$totalForfait + $fichefrais['montanthorforfait'];
                         ?></td>
                             <td style="padding:12px 16px; font-weight:700; font-size:13.5px; color:var(--cyan-dark);"><?= $MontantTotal ?> €</td>
-                        </tr>                         <?php endforeach; ?>
+                                              <?php endforeach; ?>
+                                                </tr> 
 
                     </tfoot>
 
