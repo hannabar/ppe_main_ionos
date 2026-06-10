@@ -7,7 +7,7 @@ final class visiteur {
      public static function findAll(): array
     {
         $pdo = Database::get();
-        $st  = $pdo->query('SELECT id,nom,prenom,adresse,ville,cp,date_embauche,login,mdp FROM visiteur');
+        $st  = $pdo->query('SELECT id,nom,prenom,adresse,ville,cp,date_embauche,login,mdp,role FROM visiteur');
         return $st->fetchAll(); // FETCH_ASSOC déjà par défaut via Database
     }
     public static function findById(int $id): ?array{
@@ -33,29 +33,20 @@ final class visiteur {
     string $date_embauche,
     string $login,
     string $mdp
-): int
-{
-    $pdo = Database::get(); // Connexion avec la base de données
-    
-    // Hachage du mot de passe pour la sécurité
+): int {
+    $pdo = Database::get();
     $mdp_hash = password_hash($mdp, PASSWORD_DEFAULT);
     
     $st = $pdo->prepare(
-        'INSERT INTO visiteur (nom, prenom, adresse, ville, cp, date_embauche, login, mdp) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO visiteur (nom, prenom, adresse, ville, cp, date_embauche, login, mdp, role) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     
-
     $st->execute([
-         $nom,
-         $prenom,
-         $adresse,
-         $ville,
-         $cp,
-         $date_embauche,
-         $login,
-         $mdp_hash
-     ]); // Execute est une fonction SQL qui va exécuter la requête dans la base de données
+        $nom, $prenom, $adresse, $ville, $cp,
+        $date_embauche, $login, $mdp_hash,
+        'visiteur' // ← rôle forcé à visiteur
+    ]);
     
     return (int)$pdo->lastInsertId();
 }
@@ -95,6 +86,12 @@ public static function updatePassword(int $id, string $nouveauMdp): bool
         'hash' => $hash,
         'id'   => $id
     ]);
+}
+
+public static function updateRole(int $id, string $role): bool {
+    $pdo = Database::get();
+    $st  = $pdo->prepare('UPDATE visiteur SET role = ? WHERE id = ?');
+    return $st->execute([$role, $id]);
 }
 }
 

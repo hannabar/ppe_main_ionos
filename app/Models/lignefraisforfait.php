@@ -41,15 +41,16 @@ final class lignefraisforfait {
     public static function findByVisiteurMois(int $idVisiteur, string $mois): array
     {
         $pdo = Database::get();
-        $st  = $pdo->prepare('SELECT 
-            lff.IDvisiteur,
-            lff.mois,
-            lff.IDfraisforfait,
-            ff.libelle AS libelleFraisForfait,
-            lff.quantite
-        FROM lignefraisforfait lff
-        JOIN fraisforfait ff ON lff.IDfraisforfait = ff.id
-        WHERE lff.IDvisiteur = :idVisiteur AND lff.mois = :mois');
+        $st = $pdo->prepare('SELECT 
+    lff.IDvisiteur,
+    lff.mois,
+    lff.IDfraisforfait,
+    ff.libelle AS libelleFraisForfait,
+    ff.montant,
+    lff.quantite
+FROM lignefraisforfait lff
+JOIN fraisforfait ff ON lff.IDfraisforfait = ff.id
+WHERE lff.IDvisiteur = :idVisiteur AND lff.mois = :mois');
         $st->execute([
             'idVisiteur' => $idVisiteur,
             'mois'       => $mois,
@@ -111,4 +112,17 @@ final class lignefraisforfait {
                                WHERE IDvisiteur = ? AND mois = ? AND IDfraisforfait = ?');
         return $st->execute([$idVisiteur, $mois, $idFraisForfait]);
     }
+
+    public static function findByVisiteur(int $idVisiteur): array {
+    $pdo = Database::get();
+    $st  = $pdo->prepare('SELECT 
+        lff.IDvisiteur, v.nom, lff.mois,
+        lff.IDfraisforfait, ff.libelle AS libelleFraisForfait, lff.quantite
+    FROM lignefraisforfait lff
+    JOIN visiteur v ON lff.IDvisiteur = v.id
+    JOIN fraisforfait ff ON lff.IDfraisforfait = ff.id
+    WHERE lff.IDvisiteur = :id');
+    $st->execute([':id' => $idVisiteur]);
+    return $st->fetchAll();
+}
 }
