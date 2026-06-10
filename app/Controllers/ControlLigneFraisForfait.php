@@ -230,6 +230,6 @@ final class ControlLigneFraisForfait extends Controller{
             $_SESSION['flash'] = "Erreur lors de la suppression.";
         }
 
-        $this->redirect("/index.php/lignefraisforfait/$idVisiteur/$mois/$idFraisForfait");
+        $this->redirect("/index.php/lignefraisforfait/");
     }
 }
