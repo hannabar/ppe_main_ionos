@@ -122,11 +122,11 @@ public static function findByVisiteur(int $idVisiteur): array {
         fichefrais.montantValide,
         fichefrais.dateModif,
         lignefraishorforfait.libelle AS LibelleHorForfait,
-        Etat.libelle AS LibelleEtat
+        etat.libelle AS LibelleEtat
     FROM fichefrais
     JOIN visiteur ON fichefrais.idVisiteur = visiteur.id
     LEFT JOIN lignefraishorforfait ON fichefrais.idLigneFraisHorsForfait = lignefraishorforfait.id
-    JOIN Etat ON fichefrais.idEtat = Etat.id
+    JOIN etat ON fichefrais.idEtat = etat.id
     WHERE fichefrais.idVisiteur = :id');
     $st->execute([':id' => $idVisiteur]);
     return $st->fetchAll();
