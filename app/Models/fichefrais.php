@@ -16,7 +16,7 @@ final class fichefrais {
     fichefrais.montantValide,
     fichefrais.dateModif,
     lignefraishorforfait.libelle AS LibelleHorForfait,
-    Etat.libelle AS LibelleEtat
+    etat.libelle AS LibelleEtat
 FROM 
     fichefrais
 JOIN 
@@ -24,7 +24,7 @@ JOIN
 LEFT JOIN 
     lignefraishorforfait ON fichefrais.idLigneFraisHorsForfait = lignefraishorforfait.id
 JOIN 
-    Etat ON fichefrais.idEtat = Etat.id');
+    etat ON fichefrais.idEtat = etat.id');
         return $st->fetchAll(); // FETCH_ASSOC déjà par défaut via Database
     }
     public static function findById(int $idVisiteur, int $mois): ?array {
@@ -34,12 +34,12 @@ JOIN
         visiteur.nom,
         visiteur.prenom,
         lignefraishorforfait.libelle AS LibelleHorForfait,
-        Etat.libelle AS LibelleEtat,
+        etat.libelle AS LibelleEtat,
         lignefraishorforfait.montant AS montanthorforfait
     FROM fichefrais
     JOIN visiteur ON fichefrais.IDvisiteur = visiteur.id
     LEFT JOIN lignefraishorforfait ON fichefrais.idLigneFraisHorsForfait = lignefraishorforfait.id
-    JOIN Etat ON fichefrais.idEtat = Etat.id
+    JOIN etat ON fichefrais.idEtat = etat.id
     WHERE fichefrais.IDvisiteur = :idVisiteur AND fichefrais.mois = :mois');
     $st->execute(['idVisiteur' => $idVisiteur, 'mois' => $mois]);
     $row = $st->fetch();
