@@ -204,7 +204,7 @@ final class ControlLigneFraisForfait extends Controller{
         try {
             lignefraisforfait::update($idVisiteur, $mois, $idFraisForfait, $quantite);
             $_SESSION['flash'] = "Ligne de frais forfait modifiée avec succès.";
-            $this->redirect("/index.php/lignefichefrais/$idVisiteur/$mois");
+            $this->redirect("/index.php/lignefraisforfait/$idVisiteur/$mois");
         } catch (\Throwable $e) {
             $_SESSION['flash'] = "Erreur lors de la mise à jour.";
             $this->redirect("/index.php/lignefraisforfait");
@@ -230,6 +230,6 @@ final class ControlLigneFraisForfait extends Controller{
             $_SESSION['flash'] = "Erreur lors de la suppression.";
         }
 
-        $this->redirect("/index.php/lignefichefrais/$idVisiteur/$mois");
+        $this->redirect("/index.php/lignefraisforfait/$idVisiteur/$mois");
     }
 }
