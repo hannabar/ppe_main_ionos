@@ -354,7 +354,16 @@ public function modifierMdp(int $id): void
         }
     }
     
-    require __DIR__ . '/../views/visiteur/modifier_mdp.php';
+   // require __DIR__ . '/../views/visiteur/modifier_mdp.php';
+
+    $this->render('visiteur/modifier_mdp', [
+        'title'    => 'Modifier le mot de passe',
+        'visiteur' => $visiteur,
+        'errors'   => $errors,
+        'message'  => $_SESSION['flash'] ?? ''
+    ]);
+
+    unset($_SESSION['flash']);
 }
 
 

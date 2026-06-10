@@ -9,7 +9,7 @@
 <body>
     <div class="topbar">
         <h1 style="margin:0;">Liste des Visiteurs</h1>
-        <a class="button" href="/index.php/create">Créer un visiteur</a>
+        <a class="button" href="/index.php/visiteur/create">Créer un visiteur</a>
     </div>
 
     <?php if (!empty($message)): ?>
@@ -50,7 +50,7 @@
                         <td><a href="/index.php/visiteur/<?= urlencode($vis['id']) ?>" class="btn-voir">Voir</a></td>
                         <td><a href="/index.php/visiteur/<?= urlencode($vis['id']) ?>/edit" class="btn-modifier">Modifier</a></td>
                         <td>
-                            <form method="post"action="/index.php/visiteur/<?= urlencode($vis['id']) ?>/delete" style="display:inline;">
+                            <form method="post" action="/index.php/visiteur/<?= urlencode($vis['id']) ?>/delete" style="display:inline;">
                                 <button type="submit" class="btn-supprimer" onclick="return confirm('Voulez-vous vraiment supprimer ce visiteur ?');">Supprimer</button>
                             </form>
                         </td>
