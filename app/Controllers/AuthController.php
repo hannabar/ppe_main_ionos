@@ -129,4 +129,57 @@ public function doInscription(): void {
 
     
 
+public function gestionRoles(): void {
+    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if ($_SESSION['role'] !== 'comptable') $this->redirect('/index.php/dashboard');
+
+    $this->render('gestion-roles', [
+        'title'    => 'Gestion des rôles',
+        'visiteurs' => \Models\visiteur::findAll(),
+    ]);
 }
+
+public function changerRole(): void {
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php/');
+    if ($_SESSION['role'] !== 'comptable') $this->redirect('/index.php/dashboard');
+
+    $id      = (int)($_POST['id'] ?? 0);
+    $role    = $_POST['role'] ?? 'visiteur';
+
+    if (!in_array($role, ['visiteur', 'comptable'])) $this->redirect('/index.php/gestion-roles');
+
+    \Models\visiteur::updateRole($id, $role);
+    $_SESSION['flash'] = 'Rôle mis à jour avec succès.';
+    $this->redirect('/index.php/gestion-roles');
+}
+
+public function validerFiches(): void {
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php/');
+    if ($_SESSION['role'] !== 'comptable') $this->redirect('/index.php/dashboard');
+
+    $fiches = \Models\fichefrais::findAll();
+    $this->render('valider-fiches', [
+        'title'  => 'Validation des fiches',
+        'fiches' => $fiches,
+        'message' => $_SESSION['flash'] ?? '',
+    ]);
+    unset($_SESSION['flash']);
+}
+
+public function doValiderFiche(): void {
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php/');
+    if ($_SESSION['role'] !== 'comptable') $this->redirect('/index.php/dashboard');
+
+    $idVisiteur = (int)($_POST['idVisiteur'] ?? 0);
+    $mois       = trim($_POST['mois'] ?? '');
+    $idEtat     = (int)($_POST['idEtat'] ?? 0);
+
+    \Models\fichefrais::updateEtat($idVisiteur, $mois, $idEtat);
+    $_SESSION['flash'] = 'Fiche mise à jour.';
+    $this->redirect('/index.php/valider-fiches');
+}
+
+    
+
+}
+
