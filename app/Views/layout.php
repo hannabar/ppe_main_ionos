@@ -143,7 +143,7 @@
   <div class="dash-nav-right">
     <div class="dash-nav-avatar"><?= $initial ?></div>
     <span class="dash-nav-name"><?= $uname ?></span>
-    <a href="<?= $base ?>/logout" class="btn-logout">Se déconnecter</a>
+    <a href="<?= $base ?>/index.php/logout" class="btn-logout">Se déconnecter</a>
   </div>
 </nav>
 <?php endif; ?>
@@ -167,5 +167,15 @@ document.addEventListener("click", () => {
   document.querySelectorAll(".nav-dropdown-btn").forEach(b => b.classList.remove("open"));
 });
 </script>
+<script>
+document.querySelectorAll...
+</script>
+
+<?php if (!empty($_SESSION['flash_error'])): ?>
+<div id="flash-popup" style="position:fixed;top:20px;right:20px;background:#FFF0F0;border:1px solid #FFCDD2;color:#b91c1c;padding:14px 20px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:9999;">
+    ⚠️ <?= htmlspecialchars($_SESSION['flash_error']) ?>
+</div>
+<script>setTimeout(() => document.getElementById('flash-popup')?.remove(), 3000);</script>
+<?php unset($_SESSION['flash_error']); endif; ?>
 </body>
 </html>
