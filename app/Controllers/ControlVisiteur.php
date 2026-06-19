@@ -60,7 +60,7 @@ final class ControlVisiteur extends Controller{
 }
 public function create(): void
 {
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    if (empty($_SESSION['uid'])) $this->redirect('/index.php');
 
     if ($_SESSION['role'] !== 'comptable') {
     $_SESSION['flash_error'] = 'Cette section est réservée au comptable.';
