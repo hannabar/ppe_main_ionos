@@ -3,6 +3,7 @@
 namespace Controllers;
 use Core\Controller;
 use Models\visiteur;
+
 final class ControlVisiteur extends Controller{
     public function index(): void {
     if (empty($_SESSION['uid'])) $this->redirect('/index.php');

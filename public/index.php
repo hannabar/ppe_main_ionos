@@ -64,6 +64,10 @@ $router->get('/accueil',                 [Controllers\AuthController::class, 'ac
 $router->get('/logout',                  [Controllers\AuthController::class, 'logout']);
 $router->get('/inscription',             [Controllers\AuthController::class, 'inscription']);
 $router->post('/inscription',            [Controllers\AuthController::class, 'doInscription']);
+$router->get('/gestion-roles',           [Controllers\AuthController::class, 'gestionRoles']);
+$router->post('/gestion-roles',          [Controllers\AuthController::class, 'changerRole']);
+$router->get('/valider-fiches',  [Controllers\AuthController::class, 'validerFiches']);
+$router->post('/valider-fiches', [Controllers\AuthController::class, 'doValiderFiche']);
 
 // Etat
 $router->get('/etat',                              [Controllers\ControlEtat::class, 'index']);
